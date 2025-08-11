@@ -12,8 +12,8 @@ app.use('/api/user',userRoute);
 app.use('/api/admin',adminRoute);
 app.use('/api/doctor',doctorRoute);
 
-app.listen(port, () => {
-  const url = `http://localhost:${port}`;
+app.listen('/', () => {
   console.log(`🚀 Server running at ${url}`);
 });
+
 
