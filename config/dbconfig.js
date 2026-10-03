@@ -1,13 +1,23 @@
-const mongoose=require('mongoose');
-const connect =mongoose.connect(process.env.MONGO_URL);
-const connection=mongoose.connection;
+const mongoose = require("mongoose");
 
-connection.on('connected',()=>{
-    console.log('mongodb is connected');
-})
+const mongoUrl = process.env.MONGO_URL;
 
-connection.on('error',(error)=>{
-    console.log("error in mogodb connection",error);
+if (!mongoUrl) {
+  throw new Error("MONGO_URL is not defined in the environment variables");
+}
+
+mongoose
+  .connect(mongoUrl)
+  .then(() => {
+    console.log("mongodb is connected");
+    console.log("Connected database:", mongoose.connection.name);
+  })
+  .catch((error) => {
+    console.error("MongoDB connection error:", error.message);
+  });
+
+mongoose.connection.on("disconnected", () => {
+  console.log("MongoDB disconnected");
 });
 
-module.exports=mongoose;
+module.exports = mongoose;
